@@ -38,6 +38,12 @@ class ContentViewCategory extends JViewCategoryfeed
 		$app               = JFactory::getApplication();
 		$params            = $app->getParams();
 		$item->description = $params->get('feed_summary', 0) ? $item->introtext . $item->fulltext : $item->introtext;
+		$images            = json_decode($item->images);
+
+		if (!empty($images->image_intro))
+		{
+			$item->description = '<p>' . JHtml::image($images->image_intro, $images->image_intro_alt) . '</p>' . $item->description;
+		}
 
 		// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 		if (!$item->params->get('feed_summary', 0) && $item->params->get('feed_show_readmore', 0) && $item->fulltext)
